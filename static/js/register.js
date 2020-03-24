@@ -1,10 +1,10 @@
 $(function () {
 
-    var error_name = true;
-    var error_password = true;
-    var error_check_password = true;
-    var error_email = true;
-    var error_check = true;
+    var error_name = false;
+    var error_password = false;
+    var error_check_password = false;
+    var error_email = false;
+    var error_check = false;
 
 
     $('#user_name').blur(function () {
@@ -24,7 +24,7 @@ $(function () {
     });
 
     $('#allow').click(function () {
-        if ($(this).is(':checked')) {
+        if ($(this).is('checked')) {
             error_check = false;
             $(this).siblings('span').hide();
         }
@@ -104,26 +104,18 @@ $(function () {
     }
 
 
-    // $('#reg_form').submit(function () {
-    //     check_user_name();
-    //     check_pwd();
-    //     check_cpwd();
-    //     check_email();
-    //     error_name=true;
-    //     if (error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false) {
-    //         console.log(23423);
-    //         alert("23423");
-    //         return true;
+    // $('#reg_form').click(function () {
+    //     if (checkAll()){
+    //         $("form").submit();
+    //     }else{
+    //         return false
     //     }
-    //     else {
-    //         console.log(56756756756);
-    //         alert("23423");
-    //         return false;
-    //     }
-    // });
-    //
-    $('#reg_form').submit(function () {
+
+    $('#reg_form').click(function () {
         return checkAll()
+
+    // $('#reg_form').submit(function () {
+    //     return checkAll()
     });
 
     function checkAll() {

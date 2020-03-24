@@ -57,7 +57,7 @@ def login_handle(request):
     uname = request.POST.get("username")
     password = request.POST.get("pwd")
     remember = request.POST.get("remember",0)
-    user_name = UserInfo.objects.filter(uname=uname) # 通过uname查数据库
+    user_name = UserInfo.objects.filter(uname=uname)  # 通过uname查数据库
 
     if uname == None:
         context = {'title':'用户登录', 'error_name': 0, 'error_pwd':0, 'uname':"", 'upwd':""}
@@ -72,7 +72,7 @@ def login_handle(request):
                 red.set_cookie("uname",uname)  # 把用户名传到cookie中
             else:
                 red.set_cookie('uname','',max_age=-1)  # -1 立即失效
-            request.session['user_id'] = user_name[0].id
+            request.session['user_id'] = user_name[0].id  # 在cookie中存入用户id，后面可以跟据id去查
             request.session['user_name'] = uname
             return red
         else:  # 用户名错误
@@ -83,5 +83,29 @@ def login_handle(request):
         return render(request,'user/login.html',context)
 
 def info(request):
-    return render(request,'user/user_center_info.html')
+    user_email=UserInfo.objects.get(id=request.session['user_id']).uemail
+    user_phone=UserInfo.objects.get(id=request.session['user_id']).uphone
+    user_address=UserInfo.objects.get(id=request.session['user_id']).uaddress
+    user_name=request.session['user_name']
+    context={'title':'用户中心', 'user_email': user_email, 'user_phone': user_phone, 'user_address': user_address, 'uname':user_name}
+    return render(request,'user/user_center_info.html',context)
+
+def site(request):
+    user = UserInfo.objects.get(id=request.session['user_id'])
+    if request.method=='POST':
+        post=request.POST
+        user.uphone=post.get('ushou')
+        user.uaddress=post.get('uaddress')
+        user.upostcode=post.get('uyoubian')
+        user.utelephone=post.get('uphone')
+        user.save()
+    context={'title':'用户中心', 'user':user}
+    return render(request, 'user/user_center_site.html', context)
+
+def order(request):
+    user = UserInfo.objects.get(id=request.session['user_id'])
+    context={'title':'用户中心', 'user':user}
+    return render(request, 'user/user_center_order.html', context)
+
+
 
