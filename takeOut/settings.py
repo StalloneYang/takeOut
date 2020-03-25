@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'user',
+    'goods',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +141,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # 跟项目实际名字要一样
 ]
+MEDIA_ROOT=os.path.join(BASE_DIR, 'static')
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height': 400,
+}
