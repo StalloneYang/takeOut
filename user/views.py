@@ -2,6 +2,8 @@ from _sha1 import sha1
 
 from django.http import JsonResponse,HttpResponse,HttpResponseRedirect
 
+from goods.models import GoodsInfo
+from user import user_decorator
 from user.models import UserInfo
 from django.shortcuts import render,redirect
 # Create your views here.
@@ -67,7 +69,9 @@ def login_handle(request):
         s1 = sha1()
         s1.update(password.encode("utf-8"))  # 从接口拿到的密码加密
         if s1.hexdigest()==user_name[0].upwd:   # 对比数据库
-            red = HttpResponseRedirect('/user/info/')  # 重定向跳转到个人详情页，用这个才可以设置cookie信息
+            url=request.COOKIES.get('url','/goods/index/')
+            red = HttpResponseRedirect(url)  # 重定向跳转到个人详情页，用这个才可以设置cookie信息
+            # red = HttpResponseRedirect('/goods/index/')  # 重定向跳转到个人详情页，用这个才可以设置cookie信息
             if remember!=0:
                 red.set_cookie("uname",uname)  # 把用户名传到cookie中
             else:
@@ -82,29 +86,49 @@ def login_handle(request):
         context = {'title':'用户登录', 'error_name': 1, 'error_pwd':0, 'uname':uname, 'upwd':password}
         return render(request,'user/login.html',context)
 
+def logout(request):
+    request.session.flush()
+    return redirect('/')
+
+@user_decorator.login
 def info(request):
     user_email=UserInfo.objects.get(id=request.session['user_id']).uemail
+
+    # 最近浏览器
+    goods_ids=request.COOKIES.get('goods_ids','')
+    goods_ids1=goods_ids.split(',')
+    goods_list=[]
+    for goods_id in goods_ids1:
+        print("========================")
+        print(goods_id)
+        if goods_id:
+            goods_list.append(GoodsInfo.objects.get(id=int(goods_id)))
+
+
     user_phone=UserInfo.objects.get(id=request.session['user_id']).uphone
     user_address=UserInfo.objects.get(id=request.session['user_id']).uaddress
+    ureal_name=UserInfo.objects.get(id=request.session['user_id']).ureal_name
     user_name=request.session['user_name']
-    context={'title':'用户中心', 'user_email': user_email, 'user_phone': user_phone, 'user_address': user_address, 'uname':user_name}
+    context={'title':'用户中心', 'page_name':1, 'goods_list':goods_list, 'user_email': user_email, 'user_phone': user_phone, 'user_address': user_address, 'uname':user_name, 'ureal_name':ureal_name}
     return render(request,'user/user_center_info.html',context)
 
+@user_decorator.login
 def site(request):
     user = UserInfo.objects.get(id=request.session['user_id'])
     if request.method=='POST':
         post=request.POST
-        user.uphone=post.get('ushou')
+        user.ureal_name=post.get('ureal_name')
         user.uaddress=post.get('uaddress')
         user.upostcode=post.get('uyoubian')
-        user.utelephone=post.get('uphone')
+        user.uphone=post.get('uphone')
         user.save()
-    context={'title':'用户中心', 'user':user}
+    context={'title':'用户中心', 'page_name':1, 'user':user}
     return render(request, 'user/user_center_site.html', context)
 
+@user_decorator.login
 def order(request):
     user = UserInfo.objects.get(id=request.session['user_id'])
-    context={'title':'用户中心', 'user':user}
+    context={'title':'用户中心', 'page_name':1, 'user':user}
     return render(request, 'user/user_center_order.html', context)
 
 

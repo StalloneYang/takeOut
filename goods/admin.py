@@ -10,7 +10,7 @@ class GoodsInfoline(admin.TabularInline):
 
 
 class TypeInfoAdmin(admin.ModelAdmin):
-    list_display = ['title', 'isDelete']
+    list_display = ['id','title', 'isDelete']
     list_per_page = 10
     list_filter = ['title']
     search_fields = ['title']
@@ -18,7 +18,7 @@ class TypeInfoAdmin(admin.ModelAdmin):
 
 
 class GoodsInfoAdmin(admin.ModelAdmin):
-    list_display = ['gtitle', 'gpic', 'gprice', 'isDelete', 'gunit', 'gclick', 'gjianjie', 'gkucun', 'gcontent', 'gtype', 'gadv']
+    list_display = ['id','gtitle', 'gpic', 'gprice', 'isDelete', 'gunit', 'gclick', 'gjianjie', 'gkucun', 'gcontent', 'gtype', 'gadv']
     list_per_page = 10
     list_filter = ['gtitle']
     search_fields = ['gtitle']
