@@ -1,4 +1,4 @@
-Django==2.1.7
+Django==2.2.10
 django-tinymce==2.8.0
 mysqlclient==1.4.6
 Pillow==7.0.0
