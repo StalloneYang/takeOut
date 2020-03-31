@@ -99,8 +99,6 @@ def info(request):
     goods_ids1=goods_ids.split(',')
     goods_list=[]
     for goods_id in goods_ids1:
-        print("========================")
-        print(goods_id)
         if goods_id:
             goods_list.append(GoodsInfo.objects.get(id=int(goods_id)))
 

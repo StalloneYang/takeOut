@@ -50,8 +50,8 @@
 			<h3 class="fl" id="model01">快餐便当</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-                {% for g in type1 %}
-                    <a href="/goods/{{ g.id }}/">{{g.gtitle|slice:'10'}}</a>
+                {% for g in type0 %}
+                    <a href="/goods/{{ g.id }}/">{{g.gtitle|slice:'10'}}...</a>
                 {% endfor %}
 			</div>
 			<a href="/goods/list5_1_1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
