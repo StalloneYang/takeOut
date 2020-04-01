@@ -76,8 +76,9 @@
 			<h3 class="fl" id="model02">汉堡薯条</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-				<a href="#">河虾</a>
-				<a href="#">扇贝</a>
+				{% for g in type1 %}
+                    <a href="/goods/{{ g.id }}/">{{g.gtitle|slice:'10'}}...</a>
+                {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
 		</div>
@@ -101,9 +102,9 @@
 			<h3 class="fl" id="model03">意面披萨</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-				<a href="#">鲜芒</a>
-				<a href="#">加州提子</a>
-				<a href="#">亚马逊牛油果</a>
+				{% for g in type2 %}
+                    <a href="/goods/{{ g.id }}/">{{g.gtitle|slice:'10'}}...</a>
+                {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
 		</div>
@@ -127,9 +128,9 @@
 			<h3 class="fl" id="model04">米粉面食</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-				<a href="#">鲜芒</a>
-				<a href="#">加州提子</a>
-				<a href="#">亚马逊牛油果</a>
+				{% for g in type3 %}
+                    <a href="/goods/{{ g.id }}/">{{g.gtitle|slice:'10'}}...</a>
+                {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
 		</div>
@@ -153,9 +154,9 @@
 			<h3 class="fl" id="model05">米粥包子</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-				<a href="#">鲜芒</a>
-				<a href="#">加州提子</a>
-				<a href="#">亚马逊牛油果</a>
+				{% for g in type4 %}
+                    <a href="/goods/{{ g.id }}/">{{g.gtitle|slice:'10'}}...</a>
+                {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
 		</div>
@@ -179,9 +180,9 @@
 			<h3 class="fl" id="model06">辣味湘菜</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-				<a href="#">鲜芒</a>
-				<a href="#">加州提子</a>
-				<a href="#">亚马逊牛油果</a>
+				{% for g in type5 %}
+                    <a href="/goods/{{ g.id }}/">{{g.gtitle|slice:'10'}}...</a>
+                {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
 		</div>

@@ -85,13 +85,11 @@ def order_handle(request):
         order.ototal=total+10
         order.save()
         transaction.savepoint_commit(tran_id)
-        print("2222222222222222222222")
     except Exception as e:
         print ('================%s'%e)
         transaction.savepoint_rollback(tran_id)
 
     # return HttpResponse('ok')
-    print("444444444444444444444")
     return redirect('/user/order/')
 
 

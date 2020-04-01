@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^order/', include('order.urls')),
     url(r'^$',views.login),
     url(r'^tinymce/', include('tinymce.urls')),
+    # url(r'^search/', include('haystack.urls')),
 ]

@@ -1,5 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
+
+from cart.models import CartInfo
 from .models import TypeInfo,GoodsInfo
 # Create your views here.
 
@@ -24,6 +26,7 @@ def index(request):
              "type2": type2, "type21": type21,
              "type3": type3, "type31": type31,
              "type4": type4, "type04": type41,
+             'cart_count': cart_count(request),
              "type5": type5, "type05": type51
              }
     return render(request,"goods/index.html",context)
@@ -39,7 +42,7 @@ def list(request,tid,pindex,sort):
         goods_list=GoodsInfo.objects.filter(gtype_id=int(tid)).order_by('-gclick')
     paginator=Paginator(goods_list,10)
     page=paginator.page(int(pindex))
-    context={'title':typeinfo.title,'guest_cart':1,'page':page,'paginator':paginator,'typeinfo':typeinfo,
+    context={'title':typeinfo.title,'guest_cart':1,'page':page,'paginator':paginator,'typeinfo':typeinfo,'cart_count':cart_count(request),
     'sort':typeinfo,'news':news}
     return render(request,'goods/list.html',context)
 
@@ -70,3 +73,29 @@ def detail(request,id):
 
 
     # return render(request,'goods/detail.html',context)
+# 购物车数量
+def cart_count(request):
+    if request.session.has_key('user_id'):
+        return CartInfo.objects.filter(user_id=request.session['user_id']).count()
+    else:
+        return 0
+
+from haystack.views import SearchView
+class MySearchView(SearchView):
+    def extra_context(self,text):
+        context = super(MySearchView, self).extra_context()
+        # goods_list = GoodsInfo.objects.filter(gtitle=).order_by('-id')
+        # paginator = Paginator(goods_list, 10)
+        # page = paginator.page(int(pindex))
+        # context = { 'page': page, 'paginator': paginator,
+        #             }
+        # context['title'] = '搜索'
+        # context['guest_cart'] = 1
+        # context['cart_count'] = cart_count(self.request)
+        # # return render(request, 'goods/list.html', context)
+        print(context)
+        context['title']= '搜索'
+        context['guest_cart']=1
+        context['cart_count']=cart_count(self.request)
+        print(context)
+        return context
