@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^login_handle/$',views.login_handle),
     url(r'^uname_exist/$',views.uname_exist),
     url(r'^info/$',views.info),
-    url(r'^order/$',views.order),
+    url(r'^order(\d*)/$',views.order),
     url(r'^site/$',views.site),
     url(r'^logout/$',views.logout),
 ]

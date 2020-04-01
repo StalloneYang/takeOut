@@ -1,8 +1,10 @@
 from _sha1 import sha1
 
+from django.core.paginator import Paginator
 from django.http import JsonResponse,HttpResponse,HttpResponseRedirect
 
 from goods.models import GoodsInfo
+from order.models import OrderInfo
 from user import user_decorator
 from user.models import UserInfo
 from django.shortcuts import render,redirect
@@ -124,9 +126,17 @@ def site(request):
     return render(request, 'user/user_center_site.html', context)
 
 @user_decorator.login
-def order(request):
-    user = UserInfo.objects.get(id=request.session['user_id'])
-    context={'title':'用户中心', 'page_name':1, 'user':user}
+def order(request,pindex):
+    order_list = OrderInfo.objects.filter(user_id=request.session['user_id']).order_by('-oid')
+    paginator = Paginator(order_list, 2)
+    if pindex == '':
+        pindex = '1'
+    page = paginator.page(int(pindex))
+
+    context = {'title': '用户中心',
+               'page_name': 1,
+               'paginator': paginator,
+               'page': page, }
     return render(request, 'user/user_center_order.html', context)
 
 
